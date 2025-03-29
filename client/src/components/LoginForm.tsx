@@ -3,7 +3,10 @@ import { useState } from 'react';
 import type { ChangeEvent, FormEvent } from 'react';
 import { Form, Button, Alert } from 'react-bootstrap';
 
-import { loginUser } from '../utils/API';
+//import { loginUser } from '../utils/API';
+import { useMutation } from "@apollo/client";
+import { LOGIN_USER } from "../utils/mutations";
+
 import Auth from '../utils/auth';
 import type { User } from '../models/User';
 
@@ -18,38 +21,71 @@ const LoginForm = ({}: { handleModalClose: () => void }) => {
     setUserFormData({ ...userFormData, [name]: value });
   };
 
-  const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
+  // const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
+  //   event.preventDefault();
+
+  //   // check if form has everything (as per react-bootstrap docs)
+  //   const form = event.currentTarget;
+  //   if (form.checkValidity() === false) {
+  //     event.preventDefault();
+  //     event.stopPropagation();
+  //   }
+
+  //   try {
+  //     const response = await loginUser(userFormData);
+
+  //     if (!response.ok) {
+  //       throw new Error('something went wrong!');
+  //     }
+
+  //     const { token } = await response.json();
+  //     Auth.login(token);
+  //   } catch (err) {
+  //     console.error(err);
+  //     setShowAlert(true);
+  //   }
+
+  //   setUserFormData({
+  //     username: '',
+  //     email: '',
+  //     password: '',
+  //     savedBooks: [],
+  //   });
+  // };
+// GraphQL mutation
+const [loginUserMutation] = useMutation(LOGIN_USER);
+const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
+  event.preventDefault();
+
+  // check if form has everything (as per react-bootstrap docs)
+  const form = event.currentTarget;
+  if (form.checkValidity() === false) {
     event.preventDefault();
-
-    // check if form has everything (as per react-bootstrap docs)
-    const form = event.currentTarget;
-    if (form.checkValidity() === false) {
-      event.preventDefault();
-      event.stopPropagation();
-    }
-
-    try {
-      const response = await loginUser(userFormData);
-
-      if (!response.ok) {
-        throw new Error('something went wrong!');
-      }
-
-      const { token } = await response.json();
-      Auth.login(token);
-    } catch (err) {
-      console.error(err);
-      setShowAlert(true);
-    }
-
-    setUserFormData({
-      username: '',
-      email: '',
-      password: '',
-      savedBooks: [],
+    event.stopPropagation();
+  }
+  try {
+    const { data } = await loginUserMutation({
+      variables: { ...userFormData }
     });
-  };
 
+    console.log(data);
+    //const { token } = data.loginUser;
+    const { token } = data.login;
+    Auth.login(token);
+
+    console.log(data);
+  } catch (err) {
+    console.error(err);
+    setShowAlert(true);
+  }
+
+setUserFormData({
+  username: "",
+  email: "",
+  password: "",
+  savedBooks: [],
+});
+};
   return (
     <>
       <Form noValidate validated={validated} onSubmit={handleFormSubmit}>
