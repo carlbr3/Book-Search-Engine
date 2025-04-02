@@ -1,22 +1,23 @@
-import db from '../config/connection.js';
-import { User } from '../models/index.js';
-import cleanDB from './cleanDB.js';
+import db from '../config/connection';
+import { BookModel as Book, UserModel as User } from '../models/index';
+import cleanDB from './cleanDB';
 
-import userData from './userData.json' with { type: 'json'};
-
+import bookData from './data/bookData';
+import userData from './data/userData';
 
 const seedDatabase = async (): Promise<void> => {
-  try {
-    await db();
-    await cleanDB();
+    try {
+        await db ();
+        await cleanDB();
 
-    await User.create(userData);
-    console.log('Seeding completed successfully!');
-    process.exit(0);
-  } catch (error) {
-    console.error('Error seeding database:', error);
-    process.exit(1);
-  }
+        await Book.insertMany(bookData);
+        await User.create(userData);
+        console.log('Database seeded successfully');
+        process.exit(0);
+    } catch (error) {
+        console.log('Error seeding database', error);
+        process.exit(1);
+    }
 }
 
 seedDatabase();

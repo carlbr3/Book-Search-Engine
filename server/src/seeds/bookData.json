@@ -1,0 +1,41 @@
+[
+    {
+        "BookId": 1,
+        "Title": "The Great Gatsby"
+    },
+    {
+        "BookId": 2,
+        "Title": "The Catcher in the Rye"
+    },
+    {
+        "BookId": 3,
+        "Title": "To Kill a Mockingbird"
+    },
+    {   "BookId": 4,
+        "Title": "1984"
+    },
+    {
+        "BookId": 5,
+        "Title": "Pride and Prejudice"
+    },
+    {
+        "BookId": 6,
+        "Title": "Harry Potter and the Sorcerer's Stone"
+    },
+    {
+        "BookId": 7,
+        "Title": "The Hobbit"
+    },
+    {
+        "BookId": 8,
+        "Title": "The Lord of the Rings"
+    },
+    {
+        "BookId": 9,
+        "Title": "The Chronicles of Narnia"
+    },
+    {
+        "BookId": 10,
+        "Title": "The Hunger Games"
+    }
+]

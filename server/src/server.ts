@@ -36,7 +36,7 @@ const startApolloServer = async () => {
     });
   }
   
-  await db();
+  await db.openUri(process.env.MONGODB_URI || 'mongodb://localhost:27017/yourDatabaseName');
 
   app.listen(PORT, () => {
     console.log(`API server running on port ${PORT}!`);
