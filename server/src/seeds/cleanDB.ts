@@ -1,10 +1,11 @@
-import { Book, User } from '../models/index.js'; // Ensure Book and User are Mongoose models, not schemas
+//import Book from '../models/Book.js';
+import User from '../models/User.js'; // Ensure Book and User are Mongoose models
 import process from 'process';
 
 const cleanDB = async (): Promise<void> => {
   try {
     // Delete documents from Book collection
-    await Book.deleteMany({});
+    //await Book.deleteMany({});
     console.log('Book collection cleaned.');
 
     // Delete documents from User collection
