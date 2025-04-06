@@ -1,11 +1,8 @@
 import { useState } from 'react';
 import type { ChangeEvent, FormEvent } from 'react';
 import { Form, Button, Alert } from 'react-bootstrap';
-
-//import { createUser } from '../utils/API';
 import { useMutation } from '@apollo/client';
 import { ADD_USER } from '../utils/mutations';
-
 import Auth from '../utils/auth';
 import type { User } from '../models/User';
 
@@ -13,85 +10,38 @@ import type { User } from '../models/User';
 const SignupForm = ({}: { handleModalClose: () => void }) => {
   // set initial form state
   const [userFormData, setUserFormData] = useState<User>({ username: '', email: '', password: '', savedBooks: [] });
-  // const [userFormData, setUserFormData] = useState({
-  //   username: '',
-  //   email: '',
-  //   password: ''
-  // })
   // set state for form validation
   const [validated] = useState(false);
   // set state for alert
   const [showAlert, setShowAlert] = useState(false);
 
+  const [addUser] = useMutation(ADD_USER);
+
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target as HTMLInputElement;
+    const { name, value } = event.target;
     setUserFormData({ ...userFormData, [name]: value });
   };
 
-  //REST API
-  // const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
-  //   event.preventDefault();
-
-  //   // check if form has everything (as per react-bootstrap docs)
-  //   const form = event.currentTarget;
-  //   if (form.checkValidity() === false) {
-  //     event.preventDefault();
-  //     event.stopPropagation();
-  //   }
-
-  //   try {
-  //     const response = await createUser(userFormData);
-
-  //     if (!response.ok) {
-  //       throw new Error('something went wrong!');
-  //     }
-
-  //     const { token } = await response.json();
-  //     Auth.login(token);
-  //   } catch (err) {
-  //     console.error(err);
-  //     setShowAlert(true);
-  //   }
-
-  //   setUserFormData({
-  //     username: '',
-  //     email: '',
-  //     password: '',
-  //     savedBooks: [],
-  //   });
-  // };
-
-  //GRAPH QL
-  const [addUser, { error }] = useMutation(ADD_USER);
   const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-  
+
     // check if form has everything (as per react-bootstrap docs)
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();
     }
-  
+
     try {
-      // Use the addUserMutation to create a new user
-      console.log(userFormData);
       const { data } = await addUser({
-        variables: { ...userFormData }, 
+        variables: { ...userFormData },
       });
-      // const { data } = await addUser({
-      //   variables: {input: { ...userFormData } }, 
-      // })
-      console.log(data)
-      const { token } = data.addUser;
-      console.log(token);
-      //Auth.login(newUser.addUser.token);
-      Auth.login(token);
-    } catch (err) {
+
+      Auth.login(data.addUser.token);
+    } catch (error) {
       console.error(error);
-      setShowAlert(true);
     }
-  
+
     setUserFormData({
       username: '',
       email: '',
@@ -99,7 +49,7 @@ const SignupForm = ({}: { handleModalClose: () => void }) => {
       savedBooks: [],
     });
   };
-  
+
   return (
     <>
       {/* This is needed for the validation functionality above */}
