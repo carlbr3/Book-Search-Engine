@@ -31,7 +31,7 @@ Then navigate to `localhost:3000`
 This application is covered under the [MIT](https://opensource.org/licenses/MIT) license.
 
 ## Contributors
-
+VSCode, tutor sessions, TA help from Francisco Rivera. 
 
 
 ## Tests
@@ -40,10 +40,10 @@ Start the application after completing the installation process, ensuring all de
 
 ## Links
 
-Use the app through the [render deployment]().
+Use the app through the [render deployment](https://book-search-engine-c6k8.onrender.com).
 
 Keep up with future updates on the GitHub repo.
 
 GitHub: https://github.com/carlbr3/Book-Search-Engine#
 
-[Back to Top](#book-search)
+[Back to Top](#book-search-engine)
